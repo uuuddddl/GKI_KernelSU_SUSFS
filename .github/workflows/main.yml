@@ -22,6 +22,15 @@ permissions:
 on:
   workflow_dispatch:
     inputs:
+    
+    # 你原有所有输入不动，插入这段
+    build_builtin_ks:
+      description: "内核静态内置KernelSU（LKM Root请选false）"
+      type: choice
+      options:
+        - "false（LKM模式，不打内核KS补丁）"
+        - "true（内核内置KS）"
+      default: "false（LKM模式，不打内核KS补丁）"
       # ==================== 发布配置 ====================
       release_type:
         description: "发布类型"
