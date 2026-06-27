@@ -1270,14 +1270,13 @@ jobs:
   
           cd ../
           echo "CONFIG_SYSCTL=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_SYSVIPC=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_POSIX_MQUEUE=y" >> ./common/arch/arm64/configs/gki_defconfig
+
+
           echo "CONFIG_NAMESPACES=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_PID_NS=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_IPC_NS=y" >> ./common/arch/arm64/configs/gki_defconfig
+         
           echo "CONFIG_UTS_NS=y" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_USER_NS=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_DEVTMPFS=y" >> ./common/arch/arm64/configs/gki_defconfig
+
           echo "CONFIG_DEVTMPFS_MOUNT=y" >> ./common/arch/arm64/configs/gki_defconfig
 
       - name: 配置内核名称
