@@ -1263,6 +1263,23 @@ jobs:
           CONFIG_KSU_SUSFS_OPEN_REDIRECT=y
           CONFIG_KSU_SUSFS_SUS_MAP=y
           EOF
+      - name: 注入DroidSpaces参数
+        run: |
+          cd "$KERNEL_ROOT"
+          cd ./common
+          wget  https://raw.githubusercontent.com/ravindu644/Droidspaces-OSS/refs/heads/main/Documentation/resources/kernel-patches/GKI/below-kernel-6.12/001.GKI-below-6.12-fix_sysvipc_kabi_6_7_8.patch 
+          patch -p1 < 001.GKI-below-6.12-fix_sysvipc_kabi_6_7_8.patch
+          cd ../
+          echo "CONFIG_SYSCTL=y" >> ./common/arch/arm64/configs/gki_defconfig
+          echo "CONFIG_SYSVIPC=y" >> ./common/arch/arm64/configs/gki_defconfig
+          echo "CONFIG_POSIX_MQUEUE=y" >> ./common/arch/arm64/configs/gki_defconfig
+          echo "CONFIG_NAMESPACES=y" >> ./common/arch/arm64/configs/gki_defconfig
+          echo "CONFIG_PID_NS=y" >> ./common/arch/arm64/configs/gki_defconfig
+          echo "CONFIG_IPC_NS=y" >> ./common/arch/arm64/configs/gki_defconfig
+          echo "CONFIG_UTS_NS=y" >> ./common/arch/arm64/configs/gki_defconfig
+          echo "CONFIG_USER_NS=y" >> ./common/arch/arm64/configs/gki_defconfig
+          echo "CONFIG_DEVTMPFS=y" >> ./common/arch/arm64/configs/gki_defconfig
+          echo "CONFIG_DEVTMPFS_MOUNT=y" >> ./common/arch/arm64/configs/gki_defconfig
 
       - name: 配置内核名称
         working-directory: ${{ env.KERNEL_ROOT }}
@@ -1302,7 +1319,7 @@ jobs:
               perl -i -0777 -pe 's/(.*)echo "\$\{KERNELVERSION\}\$\{file_localversion\}\$\{config_localversion\}\$\{LOCALVERSION\}\$\{scm_version\}"/$1echo "\$\{KERNELVERSION\}'"${SUFFIX}"'\$\{config_localversion\}"/s' ./scripts/setlocalversion 2>/dev/null || true
             fi
           fi
-
+      
       - name: 设置自定义构建时间
         shell: bash
         env:
