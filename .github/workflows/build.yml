@@ -873,16 +873,6 @@ jobs:
             rm -rf "$OUT_DIR"
             echo "SUSFS_PATCH_EXPORT=false" >> $GITHUB_ENV
           fi
-      - name: 修复 selinux_hide 判空（SUSFS bd7d199a 遗留，-Werror）
-        if: inputs.enable_susfs && inputs.ksu_variant == 'Official'
-        working-directory: ${{ env.KERNEL_ROOT }}/common
-        run: |
-          F=drivers/kernelsu/feature/selinux_hide.c
-          grep -q 'if (security_dump_masked_av_fn)' $F
-          grep -q 'if (context_struct_compute_av_fn)' $F
-          sed -i 's/if (security_dump_masked_av_fn)/if (\&security_dump_masked_av_fn)/' $F
-          sed -i 's/if (context_struct_compute_av_fn)/if (\&context_struct_compute_av_fn)/' $F
-          echo "[+] selinux_hide 判空已修复"
 
       - name: 克隆 Droidspaces 补丁仓库
         if: inputs.droidspaces != 'off'
